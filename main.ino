@@ -42,10 +42,11 @@ void loop()
     Serial.println(ppm);
     lcd.setCursor(0, 0);
     lcd.print("Hum: ");
-    lcd.print(hum);
-    lcd.print("%");
+    lcd.print(hum, 0);
+    lcd.print("% T: ");
+    lcd.print(temp, 0);
     lcd.setCursor(0, 1);
-    lcd.print("Temp: ");
-    lcd.print(temp);
+    lcd.print("CO2: ");
+    lcd.print(ppm, 0);
     delay(2000); //Delay 2 sec.
 }
