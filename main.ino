@@ -18,7 +18,7 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 int chk;
 float hum;  //Stores humidity value
 float temp; //Stores temperature value
-float ppm;
+float ppm; //Stores CO2 value
 
 void setup()
 {
