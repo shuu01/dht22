@@ -1,21 +1,23 @@
 
 //Libraries
 #include <DHT.h>
-#include <MQ135.h>
+#include <MHZ19.h>
 #include <LiquidCrystal.h>
 
-//Constants
+//DHT constants
 #define DHTPIN 2
 #define DHTTYPE DHT22   // DHT 22  (AM2302)
 DHT dht(DHTPIN, DHTTYPE); //// Initialize DHT sensor for normal 16mhz Arduino
 
-#define MQ135_PIN A0
-MQ135 mq135(MQ135_PIN);
+//MHZ19 constants
+#define RX_PIN 4
+#define TX_PIN 5
+MHZ19 mhz19;
+MHZ19_PROTOCOL protocol = UART;
 
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
 //Variables
-int chk;
 float hum;  //Stores humidity value
 float temp; //Stores temperature value
 float ppm; //Stores CO2 value
@@ -25,21 +27,26 @@ void setup()
     Serial.begin(9600);
     dht.begin();
     lcd.begin(16, 2);
+    mhz19.begin(RX_PIN, TX_PIN);
+    mhz19.setAutoCalibration(false);
 }
 
 void loop()
 {
-    //Read data and store it to variables hum and temp
+    //Read data and store into variables
     hum = dht.readHumidity();
     temp = dht.readTemperature();
-    ppm = mq135.getCorrectedPPM(temp, hum);
-    //Print temp and humidity values to serial monitor
+    ppm = mhz19.getPPM(protocol);
+    
+    //Print data to serial
     Serial.print("Humidity: ");
     Serial.print(hum);
     Serial.print("%, Temp: ");
     Serial.print(temp);
     Serial.print(" C , CO2: ");
     Serial.println(ppm);
+    
+    //Print data to lcd
     lcd.setCursor(0, 0);
     lcd.print("Hum: ");
     lcd.print(hum, 0);
@@ -48,5 +55,5 @@ void loop()
     lcd.setCursor(0, 1);
     lcd.print("CO2: ");
     lcd.print(ppm, 0);
-    delay(2000); //Delay 2 sec.
+    delay(5000); //Delay 2 sec.
 }
