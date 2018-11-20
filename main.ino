@@ -34,7 +34,7 @@ void loop()
     //Read data and store into variables
     hum = dht.readHumidity();
     temp = dht.readTemperature();
-    ppm = mhz19.getPPM(protocol);
+    ppm = mhz19.getPPM();
     
     //Print data to serial
     Serial.print("Humidity: ");
@@ -53,5 +53,5 @@ void loop()
     lcd.setCursor(0, 1);
     lcd.print("CO2: ");
     lcd.print(ppm, 0);
-    delay(5000); //Delay 2 sec.
+    delay(5000); //Delay 5 sec.
 }
