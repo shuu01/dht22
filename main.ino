@@ -10,10 +10,9 @@
 DHT dht(DHTPIN, DHTTYPE); //// Initialize DHT sensor for normal 16mhz Arduino
 
 //MHZ19 constants
-#define RX_PIN 4
-#define TX_PIN 5
-MHZ19 mhz19;
-MHZ19_PROTOCOL protocol = UART;
+#define RX_PIN A1
+#define TX_PIN A0
+MHZ19 mhz19(RX_PIN, TX_PIN);
 
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
@@ -27,7 +26,6 @@ void setup()
     Serial.begin(9600);
     dht.begin();
     lcd.begin(16, 2);
-    mhz19.begin(RX_PIN, TX_PIN);
     mhz19.setAutoCalibration(false);
 }
 
